@@ -1,0 +1,154 @@
+/********************************************** general styling */
+
+ol, ul, dl {
+    margin: 0;
+}
+/* list */
+  .list{ 
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+  }
+  .list li{
+    outline: none;
+  }
+
+ .list > li .li-child-item{
+      display: flex;
+      align-items: center;
+      width: 100%;
+      justify-content: space-between;
+  }
+/**/
+
+
+/* for vertical list of items */
+   .list-ver li{display: block;} 
+   /* max-widths */
+   @media (max-width: 991px) {
+    .list-ver-md-max li{display: block;}
+   }
+   @media (max-width: 768px) {
+    .list-ver-sm-max li{display: block;}
+   }
+   @media (max-width: 576px) {
+    .list-ver-xs-max li{display: block;}
+   }
+   /* min-widths */
+   @media (min-width: 576px) {
+    .list-ver-xs-min li{display: block;}
+   }
+   @media (min-width: 768px) {
+    .list-ver-sm-min li{display: block;}
+   }
+   @media (min-width: 991px) {
+    .list-ver-md-min li{display: block;}
+   }
+   
+/* for vertical list of items */
+
+
+/* for horizontal list of items */
+  .list-hor{display: inline-block;}
+  /*.list-hor{display: inline-flex; align-items: center; flex-wrap: wrap;}*/
+  .list-hor > li{display: inline-flex;}
+  /* max-widths */
+  @media (max-width: 991px) {
+    .list-hor-md-max{display: inline-block;}
+    .list-hor-md-max > li{display: inline-flex;}
+   }
+   @media (max-width: 768px) {
+    .list-hor-sm-max{display: inline-block;}
+    .list-hor-sm-max > li{display: inline-flex;}
+   }
+   @media (max-width: 576px) {
+    .list-hor-xs-max{display: inline-block;}
+    .list-hor-xs-max > li{display: inline-flex;}
+   }
+   /* min-widths */
+   @media (min-width: 576px) {
+    .list-hor-xs-min{display: inline-block;}
+    .list-hor-xs-min > li{display: inline-flex;}
+   }
+   @media (min-width: 768px) {
+    .list-hor-sm-min{display: inline-block;}
+    .list-hor-sm-min > li{display: inline-flex;}
+   }
+   @media (min-width: 991px) {
+    .list-hor-md-min{display: inline-block;}
+    .list-hor-md-min > li{display: inline-flex;}
+   }
+   
+
+/* for horizontal list of items */
+
+
+/********************************************** general styling ends here */
+
+
+
+
+
+/********************************************** specific styling */
+
+
+/* default-state */
+.list li > .li-child-item{
+  margin: .2rem 0rem; padding: .4rem;
+  background-color: transparent; color: inherit;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  border-radius: 0px;
+  position: unset;
+  width: 100%;
+  font-size: 14px;
+  transition: all .2s ease-in-out;
+}
+.list li > .li-child-item:hover{background-color: #f5f5f5; color: inherit;}
+
+/* active-state */
+.list li > .li-child-item-active{background-color: #e5e5e5; color: inherit; font-weight: bolder;}
+.list li > .li-child-item-active:hover{background-color: #e5e5e5; color: inherit;}
+
+
+.list > li .li-child-item > .li-child-item-text{ flex-basis: 80%; flex-grow: 1;}
+.list > li .li-child-item > .li-child-item-icon{ flex-basis: 10%;}
+
+/* others */
+.list .list-category-title{font-weight: bolder;}
+.list-divider{height: 2px; background: #eee; margin: .6rem 0rem;}
+
+
+/* before and after element styling - example */
+/*.list li > .li-child-item{
+    position: relative;
+}*/
+/* .list li > .li-child-item::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    margin-top: 1.7rem;
+    width: 100%;
+    height: 0.3rem;
+    border-bottom: 2px solid;
+    border-color: #000;
+    transform-origin: right center;
+    transform: scale(0,1);
+    transition: transform 0.3s ease;
+}
+.list li:hover > .li-child-item::before{
+  transform-origin: left center;
+  transform: scale(1,1);
+}*/
+
+
+ 
+
+
+/********************************************** specific styling ends here */
+
+  
+
+
+

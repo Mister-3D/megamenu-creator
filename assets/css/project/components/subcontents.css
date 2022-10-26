@@ -1,0 +1,304 @@
+
+/* for subcontents */
+
+  /*
+  subcontent-up
+  subcontent-right
+  subcontent-down
+  subcontent-left
+  subcontent-fade-in-up
+  subcontent-fade-in-right
+  subcontent-fade-in-down
+  subcontent-fade-in-left
+  subcontent-slide-in-down
+  */
+    .has-subcontent .subcontent-item-toggle:hover{cursor: pointer;}
+
+    .has-subcontent .subcontent-item{
+      display: block;
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 1000;
+      height: max-content;
+      width: 100%;
+      min-width: 100%;
+    } 
+
+   /* 
+
+
+
+#topnav .navigation-menu>li.has-submenu:hover>.submenu {
+    visibility: visible;
+    opacity: 1;
+    margin-top: 0;
+}
+
+#topnav .navigation-menu>li .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    padding: 15px 0;
+    list-style: none;
+    min-width: 180px;
+    visibility: hidden;
+    opacity: 0;
+    margin-top: 10px;
+    transition: all .2s ease;
+    border-radius: 6px;
+    background-color: #fff;
+    box-shadow: 0 0 3px rgb(60 72 88 / 15%);
+}
+
+
+    */
+
+
+
+
+    .has-subcontent .subcontent-item .subcontent-item-list-title{}
+    
+ 
+    /*  */
+
+      /* subcontent-up  */
+      .has-subcontent .subcontent-up{
+        transition: none; 
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-up,
+      .has-subcontent .subcontent-up.subcontent-item-active,
+      .has-subcontent .subcontent-up.subcontent-item-visible{
+        bottom: 100%;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* subcontent-right  */
+      .has-subcontent .subcontent-right{
+        transition: none; 
+        top: 0%;
+        left: 100%;
+        margin-right: 20px;
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-right,
+      .has-subcontent .subcontent-right.subcontent-item-active,
+      .has-subcontent .subcontent-right.subcontent-item-visible{
+        top: 0%;
+        left: 100%;
+        opacity: 1;
+        visibility: visible;
+        margin-right: 0px;
+      }
+
+      /* subcontent-down  */
+      .has-subcontent .subcontent-down{
+        transition: none; 
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-down,
+      .has-subcontent .subcontent-down.subcontent-item-active,
+      .has-subcontent .subcontent-down.subcontent-item-visible{
+        top: 100%;
+        opacity: 1;
+        visibility: visible;
+      }
+
+
+      /* subcontent-left  */
+      .has-subcontent .subcontent-left{
+        transition: none; 
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-left,
+      .has-subcontent .subcontent-left.subcontent-item-active,
+      .has-subcontent .subcontent-left.subcontent-item-visible{
+        top: 0%;
+        right: 100%;
+        opacity: 1;
+        visibility: visible;
+      }
+
+
+      /* subcontent-fade-in-up */
+      .has-subcontent .subcontent-fade-in-up{
+          bottom: 100%;
+          transition: visibility .2s ease-in, opacity .4s ease-in;
+          /*overflow: hidden;*/
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-fade-in-up,
+      .has-subcontent .subcontent-fade-in-up.subcontent-item-active,
+      .has-subcontent .subcontent-fade-in-up.subcontent-item-visible{
+        bottom: 100%;
+        opacity: 1;
+        visibility: visible;
+      }
+
+       /* subcontent-fade-in-right  */
+      .has-subcontent .subcontent-fade-in-right{
+        top: 0%;
+        left: 100%;
+        transition: visibility .2s ease-in, opacity .4s ease-in;
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-fade-in-right,
+      .has-subcontent .subcontent-fade-in-right.subcontent-item-active,
+      .has-subcontent .subcontent-fade-in-right.subcontent-item-visible{
+        left: 100%;
+        opacity: 1;
+        visibility: visible;
+      }
+
+
+      /* subcontent-fade-in-down  */
+      .has-subcontent .subcontent-fade-in-down{
+        top: 100%;
+        transition: visibility .2s ease-in, opacity .4s ease-in;
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-fade-in-down,
+      .has-subcontent .subcontent-fade-in-down.subcontent-item-active,
+      .has-subcontent .subcontent-fade-in-down.subcontent-item-visible{
+        top: 100%;
+        opacity: 1;
+        visibility: visible;
+      }
+
+
+      /* subcontent-fade-in-left  */
+      .has-subcontent .subcontent-fade-in-left{
+        top: 0%;
+        right: 100%;
+        transition: visibility .2s ease-in, opacity .4s ease-in;
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-fade-in-left,
+      .has-subcontent .subcontent-fade-in-left.subcontent-item-active,
+      .has-subcontent .subcontent-fade-in-left.subcontent-item-visible{
+        top: 0%;
+        right: 100%;
+        opacity: 1;
+        visibility: visible;
+      }
+
+
+       /* subcontent-slide-in-up */
+      .has-subcontent .subcontent-slide-in-up{
+          bottom: 80%;
+          transition: bottom .2s ease-in;
+          /*overflow: hidden;*/
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-slide-in-up,
+      .has-subcontent .subcontent-slide-in-up.subcontent-item-active,
+      .has-subcontent .subcontent-slide-in-up.subcontent-item-visible{
+        bottom: 100%;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* subcontent-slide-in-right  */
+      .has-subcontent .subcontent-slide-in-right{
+        top: 0%;
+        right: 85%;
+        transition: right .2s ease-in;
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-slide-in-right,
+      .has-subcontent .subcontent-slide-in-right.subcontent-item-active,
+      .has-subcontent .subcontent-slide-in-right.subcontent-item-visible{
+        right: 100%;
+        opacity: 1;
+        visibility: visible;
+      }
+
+
+      /* subcontent-slide-in-down  */
+      .has-subcontent .subcontent-slide-in-down{
+        top: 80%;
+        transition: top .2s ease-in;
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-slide-in-down,
+      .has-subcontent .subcontent-slide-in-down.subcontent-item-active,
+      .has-subcontent .subcontent-slide-in-down.subcontent-item-visible{
+        top: 100%;
+        opacity: 1;
+        visibility: visible;
+      }
+
+
+      /* subcontent-slide-in-left  */
+      .has-subcontent .subcontent-slide-in-left{
+        top: 0%;
+        left: 85%;
+        transition: left .2s ease-in;
+      }
+      .has-subcontent:hover > .subcontent-item-toggle-hover + .subcontent-slide-in-left,
+      .has-subcontent .subcontent-slide-in-left.subcontent-item-active,
+      .has-subcontent .subcontent-slide-in-left.subcontent-item-visible{
+        left: 100%;
+        opacity: 1;
+        visibility: visible;
+      }
+
+
+
+      /* subcontent-slide-down */
+      .has-subcontent .subcontent-slide-down{
+        display: none;
+        position: relative;
+        opacity: 1; visibility: visible;
+      }
+    /*  */
+
+
+    /* responsive related classes */
+    .has-subcontent .subcontent-item-shown{
+      visibility: visible;
+      opacity: 1;
+      position: relative;
+    }
+
+
+
+    .has-subcontent .subcontent-item-toggle-active .icon-dir-down,
+    .has-subcontent .subcontent-item-toggle-active .icon-dir-right{
+      -ms-transform: rotate(-180deg);
+      -webkit-transform: rotate(-180deg);
+      transform: rotate(-180deg);
+    }
+
+ 
+    /* using indicators */
+        .has-subcontent > .subcontent-item-with-indicator:before {
+          content: "";
+          position: absolute;
+          border-color: transparent;
+          border-width: 1px 0 0 1px;
+          border-style: solid;
+          height: 20px;
+          width: 20px;
+          z-index: -1;
+          background: white !important;
+          /*background: inherit;*/
+          -webkit-transform: rotate(45deg);
+        }
+
+        .has-subcontent > .subcontent-item-with-indicator-up:before {
+          bottom: -5%;
+          right: 5%;
+        }
+
+        .has-subcontent > .subcontent-item-with-indicator-right:before {
+          top: 10%;
+          left: -2%;
+        }
+
+        .has-subcontent > .subcontent-item-with-indicator-down:before {
+          top: -6%;
+          right: 5%;
+          /*left: 5%;*/
+        }
+
+        .has-subcontent > .subcontent-item-with-indicator-left:before {
+          top: 5%;
+          right: -3%;
+        }
+    /* using indicators ends here */
+
+/* for subcontents */
+ 

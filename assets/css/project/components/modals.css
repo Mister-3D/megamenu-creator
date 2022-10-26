@@ -1,0 +1,168 @@
+/* general declaration */
+    .modal{
+      position: fixed;
+      width: 100%;
+      top: 0px;
+      left: 0px;
+      display: none;
+      height: 100vh;
+      z-index: 3000;
+    }
+
+    .modal .modal-backdrop{
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      z-index: 2;
+      top: 0;    
+    }
+ 
+    /*   */
+    .modal .modal-content-wrapper{
+    } 
+
+    .modal .modal-content{
+      
+    }
+
+    .modal .modal-header{
+    }
+
+    .modal .modal-body{
+
+    }
+
+    .modal .modal-footer{
+
+    }
+
+/* general declaration */
+
+
+
+
+/* animation classes */
+
+	@-webkit-keyframes slideInLeft {
+	  from {
+	  left: -100%;
+	  } 
+	  to {
+	    left: 0%;
+	  }
+	}
+
+
+	@keyframes slideInRight {
+	 from {
+	  right: -100%;
+	  } 
+	  to {
+	    right: 0%;
+	  }
+	}
+
+
+	@keyframes slideInUp {
+	 from {
+	  top: 100%;
+	  }  
+	  to {
+	    top: 0%;
+	  }
+	}
+
+
+	@keyframes slideInDown {
+	 from {
+	  bottom: 200%;
+	  } 
+	  to {
+	    bottom: 0%;
+	  }
+	}
+
+	@-webkit-keyframes fadeIn {
+	  from {opacity: .2} 
+	  to {opacity: 1}
+	}
+
+	@keyframes fadeIn {
+	  from {opacity: .2} 
+	  to {opacity: 1}
+	}
+
+
+	.slideInRight{
+	  -webkit-animation-name: slideInRight;
+	  -webkit-animation-duration: .5s;
+	   animation-name: slideInRight;
+	   animation-duration: .5s;
+	   right: -100% !important;
+	   top: 0px;
+	   transition: all .4s ease-in-out;
+	   left: unset !important;
+	   display: block !important;
+	}
+	.slideInRight-active{
+	    right: 0% !important;
+	}
+
+
+	.slideInLeft{
+	  -webkit-animation-name: slideInLeft;
+	  -webkit-animation-duration: .5s;
+	   animation-name: slideInLeft;
+	   animation-duration: .5s;
+	   left: -100% !important;
+	   top: 0px !important;
+	   transition: all .4s ease-in-out;
+	   display: block !important;
+	}
+	.slideInLeft-active{
+	  left: 0% !important;
+	}
+
+	.slideInUp{
+	  -webkit-animation-name: slideInUp;
+	  -webkit-animation-duration: .5s;
+	   animation-name: slideInUp;
+	   animation-duration: .5s;
+	   top: 100% !important;
+	   transition: all .4s ease-in-out;
+	   display: block !important;
+	}
+	.slideInUp-active{
+	  top: 0% !important;
+	}
+
+
+	.slideInDown{
+	  -webkit-animation-name: slideInDown;
+	  -webkit-animation-duration: .5s;
+	   animation-name: slideInDown;
+	   animation-duration: .5s;
+	   bottom: 200% !important;
+	   transition: all .4s ease-in-out;
+	   top: unset !important;
+	   display: block !important;
+	}
+	.slideInDown-active{
+	  bottom: 0% !important;
+	}
+
+
+	@keyframes spin {
+	  0% { transform: rotate(0deg); }
+	  100% { transform: rotate(360deg); }
+	}
+
+/* animation classes */
+
+
+
+
+
+/* To Create a specific declaration 
+   do something like this "#wrapper .modal"
+*/

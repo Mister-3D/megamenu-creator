@@ -1,0 +1,394 @@
+
+
+
+
+
+/*****************general text classes *******************/
+ .text-monospace {
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  }
+
+  .text-left {
+    text-align: left !important;
+  }
+
+  .text-right {
+    text-align: right !important;
+  }
+
+  .text-center {
+    text-align: center !important;
+  }
+
+  .text-justify {
+    text-align: justify !important;
+  }
+
+
+  @media (max-width: 1400px) {
+    .text-xl-left {
+      text-align: left !important;
+    }
+
+    .text-xl-right {
+      text-align: right !important;
+    }
+
+    .text-xl-center {
+      text-align: center !important;
+    }
+
+    .text-xl-justify {
+      text-align: justify !important;
+    }
+  }
+  @media (max-width: 1200px) {
+    .text-lg-left {
+      text-align: left !important;
+    }
+
+    .text-lg-right {
+      text-align: right !important;
+    }
+
+    .text-lg-center {
+      text-align: center !important;
+    }
+
+    .text-lg-justify {
+      text-align: justify !important;
+    }
+  } 
+  @media (max-width: 991px) {
+    .text-md-left {
+      text-align: left !important;
+    }
+
+    .text-md-right {
+      text-align: right !important;
+    }
+
+    .text-md-center {
+      text-align: center !important;
+    }
+
+    .text-md-justify {
+      text-align: justify !important;
+    }
+  }
+  @media (max-width: 768px) {
+    .text-sm-left {
+      text-align: left !important;
+    }
+
+    .text-sm-right {
+      text-align: right !important;
+    }
+
+    .text-sm-center {
+      text-align: center !important;
+    }
+
+    .text-sm-justify {
+      text-align: justify !important;
+    }
+  }
+  @media (max-width: 576px) {
+    .text-xs-left {
+      text-align: left !important;
+    }
+
+    .text-xs-right {
+      text-align: right !important;
+    }
+
+    .text-xs-center {
+      text-align: center !important;
+    }
+
+    .text-xs-justify {
+      text-align: justify !important;
+    }
+  }
+  @media (max-width: 360px) {
+    .text-xxs-left {
+      text-align: left !important;
+    }
+
+    .text-xxs-right {
+      text-align: right !important;
+    }
+
+    .text-xxs-center {
+      text-align: center !important;
+    }
+
+    .text-xxs-justify {
+      text-align: justify !important;
+    }
+  }
+
+
+
+
+  .text-lowercase {
+    text-transform: lowercase !important;
+  }
+
+  .text-uppercase {
+    text-transform: uppercase !important;
+  }
+
+  .text-capitalize {
+    text-transform: capitalize !important;
+  }
+
+  .text-wrap {
+    white-space: normal !important;
+  }
+
+  .text-nowrap {
+    white-space: nowrap !important;
+  }
+
+  .text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /*NB: Better option instead of "text-ellipsis" class, use "max-width: 85%; style attribute" */
+  .text-ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    max-width: 100%;
+  }
+
+  /* max-width: 200px;
+  text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: initial;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;*/
+  
+  
+
+  .font-weight-light {
+    font-weight: 300 !important;
+  }
+
+  .font-weight-lighter {
+    font-weight: lighter !important;
+  }
+
+  .font-weight-normal {
+    font-weight: 400 !important;
+  }
+
+  .font-weight-bold {
+    font-weight: 700 !important;
+  }
+
+  .font-weight-bolder {
+    font-weight: bolder !important;
+  }
+
+  .font-italic {
+    font-style: italic !important;
+  }
+
+/*****************general text classes ends here *******************/
+
+
+ /* classes indicating inheritance */
+ .txt-fs-i > * {font-size: inherit !important;}
+ .txt-fw-i > * {font-weight: inherit !important;}
+
+
+/******************** LINE HEIGHTS ***********************/
+/*.txt-lh-1{line-height: 2rem !important;}
+.txt-lh-2{line-height: 4rem !important;}*/
+.txt-lh-1{line-height: 1 !important;}
+.txt-lh-1-5{line-height: 1.5 !important;}
+.txt-lh-2{line-height: 2 !important;}
+/******************** LINE HEIGHTS ***********************/
+
+
+/*percentage font-sizes */
+.txt-perc-80{font-size: 80% !important;}
+
+
+/******************** TEXT FONT SIZES ***********************/
+  .txt-fs-160 {font-size: 160px !important;}
+  .txt-fs-140 {font-size: 140px !important;}
+  .txt-fs-120 {font-size: 120px !important;}
+  .txt-fs-100 {font-size: 100px !important;}
+  .txt-fs-90 {font-size: 90px !important;}
+  .txt-fs-80 {font-size: 80px !important;}
+  .txt-fs-60 {font-size: 60px !important;}
+  .txt-fs-54 {font-size: 54px !important;}
+  .txt-fs-48 {font-size: 48px !important;}
+  .txt-fs-36 {font-size: 36px !important;}
+  .txt-fs-32 {font-size: 32px !important;}
+  .txt-fs-28 {font-size: 28px !important;}
+  .txt-fs-24 {font-size: 24px !important;}
+  .txt-fs-22 {font-size: 22px !important;}
+  .txt-fs-20 {font-size: 20px !important;}
+  .txt-fs-18 {font-size: 18px !important;}
+  .txt-fs-16 {font-size: 16px !important;}
+  .txt-fs-14 {font-size: 14px !important;}
+  .txt-fs-13 {font-size: 13px !important;}
+  .txt-fs-12 {font-size: 12px !important;}
+  .txt-fs-10 {font-size: 10px !important;}
+  .txt-fs-8 {font-size: 8px!important;}
+  .txt-fs-4 {font-size: 4px!important;}
+  .txt-fs-3 {font-size: 3px!important;}
+  .txt-fs-2 {font-size: 2px!important;}
+
+  @media(max-width: 991px){
+    .txt-fs-md-160 {font-size: 160px !important;}
+    .txt-fs-md-140 {font-size: 140px !important;}
+    .txt-fs-md-120 {font-size: 120px !important;}
+    .txt-fs-md-100 {font-size: 100px !important;}
+    .txt-fs-md-90 {font-size: 90px !important;}
+    .txt-fs-md-80 {font-size: 80px !important;}
+    .txt-fs-md-60 {font-size: 60px !important;}
+    .txt-fs-md-54 {font-size: 54px !important;}
+    .txt-fs-md-48 {font-size: 48px !important;}
+    .txt-fs-md-36 {font-size: 36px !important;}
+    .txt-fs-md-32 {font-size: 32px !important;}
+    .txt-fs-md-28 {font-size: 28px !important;}
+    .txt-fs-md-24 {font-size: 24px !important;}
+    .txt-fs-md-22 {font-size: 22px !important;}
+    .txt-fs-md-20 {font-size: 20px !important;}
+    .txt-fs-md-18 {font-size: 18px !important;}
+    .txt-fs-md-16 {font-size: 16px !important;}
+    .txt-fs-md-14 {font-size: 14px !important;}
+    .txt-fs-md-13 {font-size: 13px !important;}
+    .txt-fs-md-12 {font-size: 12px !important;}
+    .txt-fs-md-10 {font-size: 10px !important;}
+    .txt-fs-md-8 {font-size: 8px!important;}
+    .txt-fs-md-4 {font-size: 4px!important;}
+    .txt-fs-md-3 {font-size: 3px!important;}
+    .txt-fs-md-2 {font-size: 2px!important;}
+  }
+  @media(max-width: 768px){
+    .txt-fs-sm-160 {font-size: 160px !important;}
+    .txt-fs-sm-140 {font-size: 140px !important;}
+    .txt-fs-sm-120 {font-size: 120px !important;}
+    .txt-fs-sm-100 {font-size: 100px !important;}
+    .txt-fs-sm-90 {font-size: 90px !important;}
+    .txt-fs-sm-80 {font-size: 80px !important;}
+    .txt-fs-sm-60 {font-size: 60px !important;}
+    .txt-fs-sm-54 {font-size: 54px !important;}
+    .txt-fs-sm-48 {font-size: 48px !important;}
+    .txt-fs-sm-36 {font-size: 36px !important;}
+    .txt-fs-sm-32 {font-size: 32px !important;}
+    .txt-fs-sm-28 {font-size: 28px !important;}
+    .txt-fs-sm-24 {font-size: 24px !important;}
+    .txt-fs-sm-22 {font-size: 22px !important;}
+    .txt-fs-sm-20 {font-size: 20px !important;}
+    .txt-fs-sm-18 {font-size: 18px !important;}
+    .txt-fs-sm-16 {font-size: 16px !important;}
+    .txt-fs-sm-14 {font-size: 14px !important;}
+    .txt-fs-sm-13 {font-size: 13px !important;}
+    .txt-fs-sm-12 {font-size: 12px !important;}
+    .txt-fs-sm-10 {font-size: 10px !important;}
+    .txt-fs-sm-8 {font-size: 8px!important;}
+    .txt-fs-sm-4 {font-size: 4px!important;}
+    .txt-fs-sm-3 {font-size: 3px!important;}
+    .txt-fs-sm-2 {font-size: 2px!important;}
+  }
+  @media(max-width: 576px){
+    .txt-fs-xs-32 {font-size: 32px !important;}
+    .txt-fs-xs-28 {font-size: 28px !important;}
+    .txt-fs-xs-24 {font-size: 24px !important;}
+    .txt-fs-xs-22 {font-size: 22px !important;}
+    .txt-fs-xs-20 {font-size: 20px !important;}
+    .txt-fs-xs-18 {font-size: 18px !important;}
+    .txt-fs-xs-16 {font-size: 16px !important;}
+    .txt-fs-xs-14 {font-size: 14px !important;}
+    .txt-fs-xs-13 {font-size: 13px !important;}
+    .txt-fs-xs-12 {font-size: 12px !important;}
+    .txt-fs-xs-10 {font-size: 10px !important;}
+    .txt-fs-xs-8 {font-size: 8px!important;}
+    .txt-fs-xs-4 {font-size: 4px!important;}
+    .txt-fs-xs-3 {font-size: 3px!important;}
+    .txt-fs-xs-2 {font-size: 2px!important;}
+  }
+  @media(max-width: 360px){
+    .txt-fs-xxs-32 {font-size: 32px !important;}
+    .txt-fs-xxs-28 {font-size: 28px !important;}
+    .txt-fs-xxs-24 {font-size: 24px !important;}
+    .txt-fs-xxs-22 {font-size: 22px !important;}
+    .txt-fs-xxs-20 {font-size: 20px !important;}
+    .txt-fs-xxs-18 {font-size: 18px !important;}
+    .txt-fs-xxs-16 {font-size: 16px !important;}
+    .txt-fs-xxs-14 {font-size: 14px !important;}
+    .txt-fs-xxs-13 {font-size: 13px !important;}
+    .txt-fs-xxs-12 {font-size: 12px !important;}
+    .txt-fs-xxs-10 {font-size: 10px !important;}
+    .txt-fs-xxs-8 {font-size: 8px!important;}
+    .txt-fs-xxs-4 {font-size: 4px!important;}
+    .txt-fs-xxs-3 {font-size: 3px!important;}
+    .txt-fs-xxs-2 {font-size: 2px!important;}
+  }
+/******************** TEXT FONT SIZES ENDS HERE ***********************/
+
+
+
+/******************** TEXT FONT WEIGHTS ***********************/
+  .txt-fw-100{font-weight: 100 !important;}
+  .txt-fw-200{font-weight: 200 !important;}
+  .txt-fw-300{font-weight: 300 !important;}
+  .txt-fw-400{font-weight: 400 !important;}
+  .txt-fw-500{font-weight: 500 !important;}
+  .txt-fw-600{font-weight: 600 !important;}
+  .txt-fw-700{font-weight: 700 !important;}
+  .txt-fw-800{font-weight: 800 !important;}
+  .txt-fw-900{font-weight: 900 !important;}
+
+  /* bootstrap based responsive text classes */
+  @media(max-width: 991px){
+    .txt-fw-md-100{font-weight: 100 !important;}
+    .txt-fw-md-200{font-weight: 200 !important;}
+    .txt-fw-md-300{font-weight: 300 !important;}
+    .txt-fw-md-400{font-weight: 400 !important;}
+    .txt-fw-md-500{font-weight: 500 !important;}
+    .txt-fw-md-600{font-weight: 600 !important;}
+    .txt-fw-md-700{font-weight: 700 !important;}
+    .txt-fw-md-800{font-weight: 800 !important;}
+    .txt-fw-md-900{font-weight: 900 !important;}
+  }
+  @media(max-width: 768px){
+    .txt-fw-sm-100{font-weight: 100 !important;}
+    .txt-fw-sm-200{font-weight: 200 !important;}
+    .txt-fw-sm-300{font-weight: 300 !important;}
+    .txt-fw-sm-400{font-weight: 400 !important;}
+    .txt-fw-sm-500{font-weight: 500 !important;}
+    .txt-fw-sm-600{font-weight: 600 !important;}
+    .txt-fw-sm-700{font-weight: 700 !important;}
+    .txt-fw-sm-800{font-weight: 800 !important;}
+    .txt-fw-sm-900{font-weight: 900 !important;}
+  }
+  @media(max-width: 576px){
+    .txt-fw-xs-100{font-weight: 100 !important;}
+    .txt-fw-xs-200{font-weight: 200 !important;}
+    .txt-fw-xs-300{font-weight: 300 !important;}
+    .txt-fw-xs-400{font-weight: 400 !important;}
+    .txt-fw-xs-500{font-weight: 500 !important;}
+    .txt-fw-xs-600{font-weight: 600 !important;}
+    .txt-fw-xs-700{font-weight: 700 !important;}
+    .txt-fw-xs-800{font-weight: 800 !important;}
+    .txt-fw-xs-900{font-weight: 900 !important;}
+  }
+/******************** TEXT FONT WEIGHTS ENDS HERE ***********************/
+
+
+
+
+
+

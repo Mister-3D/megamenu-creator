@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MegaLists Creator | List-Docs</title>
+
+	    <!-- Vendor -->
+   <link rel="stylesheet" type="text/css" href="assets/css/vendor/normalize.css">
+   <link rel="stylesheet" type="text/css" href="assets/icons/icons.css">
+   
+  
+   <!-- Project -->
+   <link rel="stylesheet" type="text/css" href="assets/css/project/utilities/grid.css">
+   <link rel="stylesheet" type="text/css" href="assets/css/project/utilities/spacing.css">
+   <link rel="stylesheet" type="text/css" href="assets/css/project/utilities/display.css">
+   <link rel="stylesheet" type="text/css" href="assets/css/project/utilities/dimensions.css">
+   <link rel="stylesheet" type="text/css" href="assets/css/project/utilities/positioning.css">
+   <link rel="stylesheet" type="text/css" href="assets/css/project/utilities/texts.css">
+   <link rel="stylesheet" type="text/css" href="assets/css/project/utilities/animations.css">
+   
+	<link rel="stylesheet" type="text/css" href="assets/css/project/components/lists-docs.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/project/components/subcontents.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/project/components/modals.css">
+
+
+
+
+    <style type="text/css">
+         .layout-groups-wrapper{
+           position: relative; overflow-x: hidden;
+           height: 100vh; width: 100%;
+        }
+        .layout-group-item{
+          position: absolute;
+          width: 100%;
+          height: -webkit-fill-available;
+          overflow-x: hidden;
+          overflow-y: auto;
+        }
+
+
+
+        .layout-wrapper{
+          --height-header: 70px;
+          --height-footer: 70px;
+          position: relative;
+          top: 0; left: 0; width: 100%;
+          height: 100vh;
+        }
+        .layout-wrapper .header{ 
+          position: absolute;
+          height: var(--height-header);
+          top: 0; left: 0; width: 100%;
+          z-index: 2;
+          box-shadow: 0 14px 25px rgb(0 0 0 / 16%);
+          background-color: white;
+          display: flex; align-items: center;
+        }
+        .layout-wrapper .footer{
+          position: absolute;
+          height: var(--height-footer);
+          bottom: 0; left: 0; width: 100%;
+          z-index: 2;
+          box-shadow: 0 14px 25px rgb(0 0 0 / 16%);
+          background-color: white;
+          display: flex; align-items: center;
+        }
+        .layout-wrapper .body{
+          position: absolute;
+          z-index: 1;
+          height: 100vh;
+          width: 100%;
+          background-color: aliceblue;
+          padding: var(--height-header) 0px var(--height-footer) 0px;
+          /*padding: calc(var(--spacing) + 20px) 0px;*/
+          overflow-y: auto;
+        }
+
+
+
+         #modal-default .modal-backdrop{
+                    background-color: rgba(0,0,0,.5);
+                  }
+                  #modal-default .modal-content-wrapper{
+                      width: 300px;
+                      margin: 1.75rem auto;
+                      position: relative;
+                      z-index: 5;
+                      background: transparent;
+                  }
+
+                  #modal-default .modal-toggle{
+                    position: absolute;
+                    right: 16px;
+                    top: 16px;
+                    cursor: pointer;
+                    z-index: 500;
+                    transition: all .1s ease-in-out;
+                    box-shadow: 0 4px 20px 0 rgba(167,172,183, 0);
+                  }
+                  #modal-default .modal-toggle:hover{
+                    box-shadow: 0 4px 20px 0 rgba(167,172,183,.3);
+                  }
+                  @media(max-width: 576px){
+                    #modal-default .modal-content-wrapper{width: 100%;}
+                  }
+        
+    </style>
+
+</head>
+<body>
+
+  <!--  -->
+  <input type="hidden" id="thisMenuID" value=""/>
+  <!--  -->
+
+
+  <div id="exampleID" animation-logic="add" animation-type="fadeIn" class="layout-groups-wrapper">
+      <!--  -->
+      <div child-index="1" class="layout-group-item layout-group-item-shown fadeIn fadeIn-active" style="background-color: green;">
+            
+            <div class="h-100vh w-100 d-flex justify-content-center align-items-center">
+                <div>
+                    <label>Add a name for this Menu</label><br>
+                    <input type="text" name="new_menu_name" id="new_menu_name"><br>
+                    <button id="save_new_menu_name">Next</button>
+                </div>
+            </div>
+
+      </div>
+      <!-- -->
+
+      <!-- -->
+      <div child-index="2" class="layout-group-item fadeIn">
+
+          <div class="h-100vh w-100 d-flex justify-content-center align-items-center">
+                <div>
+                    <label>Add items for the root Menu (separated by a '|')</label><br>
+                    <textarea style="width: 100%;" placeholder="e.g. option1 | option2 | option3..." rows="3" name="root_menu_items" id="root_menu_items"></textarea> 
+                    <button id="save_root_menu_items">Save</button>
+                </div>
+            </div>
+          
+      </div>
+      <!-- -->
+ 
+
+      <!-- -->
+      <div child-index="3" class="layout-group-item fadeIn" style="background-color: purple;">
+
+            <!-- this would be a template to display the ListItem Properties -->
+             <div id="" style="--height-header: 120px; --height-footer: 70px;" class="listsTemplateElement layout-wrapper">
+
+                  <!-- header -->
+                  <div class="header">
+                      <div class="flex-fill">
+                          <!--  -->
+                           <div class="p-1">
+                              <div class="mb-50 d-flex justify-content-end align-items-center">
+                                  <p class="list_text flex-grow-1 txt-fs-28 txt-fw-900 txt-lh-1">Root</p>
+                                  <div>
+                                      <a style="text-decoration: none; border-radius: 3px; background-color: #0D6EFD; color: white; box-shadow: 0px 2px 5px rgb(0 0 0 / 10%);" class="py-25 px-1 py-sm-1 txt-fs-14 txt-fs-xs-12 d-flex align-items-center">
+                                            <span class="mr-50 mr-sm-0 icon-feather-plus"></span>
+                                            <span class="d-xs-none">Add SubItem</span>
+                                      </a>
+                                    
+                                  </div>
+                              </div>
+                              <div>
+                                  <style type="text/css">
+                                    .list_breadcrumb{list-style: none; margin: 0; padding: 0; display: inline-flex; align-items: center;}
+                                    .list_breadcrumb li{display: inline-flex;}
+                                  </style>
+                                  <ul class="list_breadcrumb hor-scroll-wrapper txt-fs-12 txt-fs-i">
+                                      <li style=""><span class="mr-25">Root</span></li>
+                                      <li><span class="icon-feather-chevron-right mr-25"></span></li>
+                                      <li><span class="mr-25">About</span></li>
+                                      <li><span class="icon-feather-chevron-right mr-25"></span></li>
+                                      <li><span class="mr-25">About 1</span></li>
+                                      <li><span class="icon-feather-chevron-right mr-25"></span></li>
+                                      <li><span class="mr-25">About 2</span></li>
+                                      <li><span class="icon-feather-chevron-right mr-25"></span></li>
+                                      <li><span class="mr-25 txt-fw-900">About 3</span></li>
+                                  </ul>
+                              </div>
+                        
+                        </div>
+                        <!--  -->
+
+                        <!--  -->
+                        <div class="flex-fill">
+                            <div class="d-flex flex-fill align-items-center p-50" style="background-color: #f5f5f5;">
+                                  <p class="mr-1"><span>Items/SubItems:</span> <span class="list_subitems_count txt-fw-900">5</span></p>
+                                  <p class="mr-1"><span>Level:</span> <span class="list_level_count txt-fw-900">5</span></p>
+                            </div>
+                        </div>
+                        <!--  -->
+                    </div>
+                  </div>
+                  <!-- /header -->
+
+                  <!-- body -->
+                  <div class="body">
+                        <div class="listSubitemsULWrapper w-sm-100 mx-auto py-2" style="width: 400px;">
+                            <ul class="list list-ver sortableLists txt-fs-14 txt-fs-i py-50">
+
+
+                                        <li class="has-subcontent">
+                                          <span class="li-child-item pos-rel" style="border: 1px solid #f5f5f5; background-color: white;">
+                                            <span class="mr-25">List Item 1</span>
+                                            <span><i modal-target-component="#modal-default" class="modal-toggle-item icon-feather-more-vertical"></i></span>
+                                          </span>
+
+                                        </li>
+
+                                         <li class="has-subcontent">
+                                          <span class="li-child-item pos-rel" style="border: 1px solid #f5f5f5; background-color: white;">
+                                            <span class="mr-25">List Item 2</span>
+                                            <span><i modal-target-component="#modal-default" class="modal-toggle-item icon-feather-more-vertical"></i></span>
+                                          </span>
+
+                                        </li>
+
+                                    </ul>
+                        </div>
+                  </div>
+                  <!--/body -->
+
+
+                  <!-- footer -->
+                  <div class="footer">
+
+                        <div class="d-flex align-items-center justify-content-end flex-grow-1">
+                            <div class="d-flex">
+                                <a style="text-decoration: none; background-color: #eeeeee; color: #333; box-shadow: 0px 2px 5px rgb(0 0 0 / 10%);" class="py-50 px-2 mr-1">Cancel</a>
+                               <a style="text-decoration: none; background-color: #0D6EFD; color: white; box-shadow: 0px 2px 5px rgb(0 0 0 / 10%);" class="py-50 px-2 mr-1">Next</a>
+                            </div>
+                        </div>
+
+                  </div>
+                  <!-- /footer -->
+                </div>
+
+        
+         
+
+      </div>
+      <!-- -->
+
+      <!-- -->
+      <div child-index="4" class="layout-group-item fadeIn" style="background-color: yellow;"></div>
+      <!-- -->
+
+    </div>
+
+
+    <div class="d-flex" style="position: fixed; z-index: 500; left: 50%; top: 10%; transform: translate(-50%, -50%);">
+        <button target-component="exampleID" class="movePrevious" style="padding: 5px;">Move Previous</button>
+        <button target-component="exampleID" class="moveNext" style="padding: 5px;">Move Next</button>
+    </div>
+
+
+
+    <!--  -->
+   <div id="modal-default" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content-wrapper">
+
+          <div class="modal-toggle">
+            <i class="icon-feather-x"></i>
+          </div>
+          
+          <div class="d-flex justify-content-center align-items-center h-100vh w-100">
+              
+              <div class="w-100" style="background-color: white; border-radius: 8px; overflow: hidden;">
+                  <ul class="list list-ver w-100 text-start txt-fs-14">
+                                                
+                                               <li>
+                                                  <a href="" class="li-child-item">
+                                                    <span class="li-child-item-icon txt-fs-20 mr-75">
+                                                      <span class="icon-feather-plus-square"></span>
+                                                    </span>
+                                                    <span class="li-child-item-text">Add data to table</span>
+                                                  </a>
+                                                </li>
+
+                                                <li>
+                                                  <a href="" class="li-child-item">
+                                                    <span class="li-child-item-icon txt-fs-20 mr-75">
+                                                      <span class="icon-feather-book-open"></span>
+                                                    </span>
+                                                    <span class="li-child-item-text">View Rows</span>
+                                                  </a>
+                                                </li>
+
+                                                 <li>
+                                                  <a href="" class="li-child-item">
+                                                    <span class="li-child-item-icon txt-fs-20 mr-75">
+                                                      <span class="icon-feather-share-2"></span>
+                                                    </span>
+                                                    <span class="li-child-item-text">Export Data</span>
+                                                  </a>
+                                                </li>
+
+                                                <li>
+                                                  <a href="" class="li-child-item">
+                                                    <span class="li-child-item-icon txt-fs-20 mr-75">
+                                                      <span class="icon-feather-trash-2"></span>
+                                                    </span>
+                                                    <span class="li-child-item-text">Delete Table</span>
+                                                  </a>
+                                                </li>
+
+                                            </ul>
+              </div>
+          </div>
+        
+  
+        
+      </div>     
+   </div>
+   <!--  -->
+
+
+
+
+
+    <!-- Vendor -->
+  <script type="text/javascript" src="assets/js/vendor/jquery.min.js"></script>
+
+  <!-- Component -->
+  <script type="text/javascript" src="assets/js/project/components/modals.js"></script>
+
+  <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+  <script src="assets/js/vendor/jquery-ui.min.js"></script> 
+  <script src="assets/js/vendor/jquery.mjs.nestedSortable.js"></script> 
+  <script src="assets/js/vendor/touchpunch.js"></script>
+
+  <script type="text/javascript">
+      $( ".sortableLists" ).sortable();
+        
+  </script> 
+
+  <!-- Component -->
+  <script type="text/javascript" src="assets/js/project/components/subcontents.js"></script>
+
+     <!-- Vendor -->
+    <script type="text/javascript">
+
+        let animationsDefault = ["slideInDown", "slideInUp", "slideInLeft", "slideInRight", "fadeIn", "uk-animation-fade"];
+        let animationsActive = ["slideInDown-active", "slideInUp-active", "slideInLeft-active", "slideInRight-active", "fadeIn-active", "uk-animation-reverse"];
+
+        
+        function moveToTargetChild(layoutGroupWrapperID, targetItemReference){
+            //
+            var layoutGroupWrapper = document.querySelector('#' + layoutGroupWrapperID);
+            var layoutGroupAnimation = layoutGroupWrapper.getAttribute('animation-type');
+            var layoutGroupLogic = layoutGroupWrapper.getAttribute('animation-logic');
+            //
+            var animationIndex = 0;
+              for(var k = 0; k < animationsDefault.length; k++){
+                 if(layoutGroupAnimation == animationsDefault[k]){
+                    animationIndex = k;
+                 }
+              }
+
+            // current shown item: layout-group-item-shown
+            let shownlayoutGroupElement = layoutGroupWrapper.querySelector(".layout-group-item-shown");
+            let shownlayoutGroupElementIndex = shownlayoutGroupElement.getAttribute('child-index');
+            // get the nodelist of all the items
+            let layoutGroupWrapperList = layoutGroupWrapper.querySelectorAll(".layout-group-item");
+
+            // targetItemID
+
+            let targetItemID = 0;
+            if(targetItemReference == "prev"){targetItemID = Number(shownlayoutGroupElementIndex) - 1;}
+            else if(targetItemReference == "next"){targetItemID = Number(shownlayoutGroupElementIndex) + 1;}
+            else{
+                targetItemID = Number(targetItemReference);
+            }
+            //
+            if((Number(targetItemID) >= 1) && (Number(targetItemID) <= Number(layoutGroupWrapperList.length))){
+                if((targetItemReference == "next") && (Number(shownlayoutGroupElementIndex) == Number(layoutGroupWrapperList.length))){
+                    console.log("Last Item: No movement Forward");
+                }
+                else if((targetItemReference == "prev") && (Number(shownlayoutGroupElementIndex) == 1)){
+                    console.log("First Item: No movement Backward");
+                }
+                else{
+                    // get the next layout-group-item
+                    let targetIDElement = layoutGroupWrapperList[Number(targetItemID - 1)];
+                    //
+                    shownlayoutGroupElement.classList.remove("layout-group-item-shown");
+                    
+                    if(layoutGroupLogic == "add"){
+                    shownlayoutGroupElement.classList.remove(animationsActive[animationIndex]);}else{shownlayoutGroupElement.classList.add(animationsActive[animationIndex]);
+                        
+                    }
+                    
+                     setTimeout(function(){
+                         targetIDElement.classList.add("layout-group-item-shown");
+                         if(layoutGroupLogic == "add"){
+                        targetIDElement.classList.add(animationsActive[animationIndex]);}
+                        else{
+                            targetIDElement.classList.remove(animationsActive[animationIndex]);
+                        }
+                    }, 200);
+                }
+            }
+            else{
+                console.log("Not available");
+            }
+
+        }
+
+        var movePrevious = document.querySelector(".movePrevious");
+        var moveNext = document.querySelector(".moveNext");
+        movePrevious.addEventListener('click', function(event){
+            var layoutGroupWrapperID = this.getAttribute('target-component');
+            if((layoutGroupWrapperID == "") || (layoutGroupWrapperID == null)){}
+            else{moveToTargetChild(layoutGroupWrapperID, "prev");}
+        });
+        moveNext.addEventListener('click', function(event){
+            var layoutGroupWrapperID = this.getAttribute('target-component');
+            if((layoutGroupWrapperID == "") || (layoutGroupWrapperID == null)){}
+            else{moveToTargetChild(layoutGroupWrapperID, "next");}
+        });
+
+
+    </script>
+
+
+
+
+
+    <!--  -->
+    <script type="text/javascript" src="mega-list-creator.js"></script>
+
+
+
+
+</body>
+
+
+
+</html>
