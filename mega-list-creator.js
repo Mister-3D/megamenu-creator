@@ -6,7 +6,7 @@
 /*
  
 button: #save_new_menu_name
-button: #save_root_menu_items
+button: #save_new_list_items
 
 */
 
@@ -20,26 +20,27 @@ document.querySelector("#save_new_menu_name").addEventListener('click', function
 
  	}else{
  		createNewMenuObject(input_new_menu_name.value);
- 		moveToTargetChild("exampleID", 2);
+ 		toggleModal("#addNewItemsModal");
+ 		document.querySelector("#addNewItemsModal").querySelector("#addNewItemsModalLabel").innerHTML = "Add Items for the Root level";
  	}
 });
 
 // step 2
-document.querySelector("#save_root_menu_items").addEventListener('click', function(){
- 	var textarea_root_menu_items = document.querySelector("#root_menu_items");
+document.querySelector("#save_new_list_items").addEventListener('click', function(){
+ 	var textarea_new_list_items = document.querySelector("#new_list_items");
+ 	let targetListLevel  = textarea_new_list_items.getAttribute("targetListLevel");
+ 	let currentSelectedMenuID = 	document.querySelector("#currentSelectedMenuID").value;
+ 	let currentListItemID  = textarea_new_list_items.getAttribute("currentListItemID");
  	//
- 	if((String(textarea_root_menu_items.value).length) == 0){
+ 	if((String(textarea_new_list_items.value).length) == 0){
  		alert("please enter an item");
- 		textarea_root_menu_items.focus();
+ 		textarea_new_list_items.focus();
 
  	}else{
- 		// createNewMenuObject(textarea_root_menu_items.value);
- 		// moveToTargetChild("exampleID", 2);
- 		addRootMenuItemsToMenuObject(document.querySelector("#thisMenuID").value, convertStringWithDelimeterToArray("|", textarea_root_menu_items.value));
- 		// we set the details 
- 		let menuObject = getMenuObjectByID(document.querySelector("#thisMenuID").value);
- 		setListDetailsOnTarget("targetWrapperElt", document.querySelector("#thisMenuID").value, "listItemID",  1);
-
+ 		addNewListItemsToMenuObject(document.querySelector("#currentSelectedMenuID").value, convertStringWithDelimeterToArray("|", textarea_new_list_items.value), targetListLevel);
+ 		setListDetailsOnTarget(currentSelectedMenuID, currentListItemID, targetListLevel);
+ 	  //
+ 	  toggleModal("#addNewItemsModal");
  	}
 });
 
@@ -57,23 +58,23 @@ function createNewMenuObject(menuName){
 	//
 	allMenus.push(newMenuItem);
 	// set value to an input
-	document.querySelector("#thisMenuID").value = newMenuItemID;
+	document.querySelector("#currentSelectedMenuID").value = newMenuItemID;
 	console.log("Added New Item:");
 	console.log(allMenus);
 }
 
-function addRootMenuItemsToMenuObject(menuItemID, rootMenuArray){
+function addNewListItemsToMenuObject(menuItemID, newListItems, targetListLevel){
 	let menuObject = getMenuObjectByID(menuItemID);
 	if(menuObject != null){
-		for( var p = 0; p < rootMenuArray.length; p++){
-			let rootItemObj = createNewListItemObject(rootMenuArray[p], p, 1);
-			let rootItemObjID = rootItemObj.id;
+		for( var p = 0; p < newListItems.length; p++){
+			let newListItemObj = createNewListItemObject(newListItems[p], p, Number(targetListLevel));
+			let newListItemObjID = newListItemObj.id;
 			//
 			let itemsArray = menuObject.allListItems;
-			itemsArray.push(rootItemObj);
+			itemsArray.push(newListItemObj);
 			menuObject.allListItems = itemsArray;
 			//
-			saveNewLevelItems(1, rootItemObjID, menuItemID);
+			saveNewLevelItems(Number(targetListLevel), newListItemObjID, menuItemID);
 			//
 			allMenus[getMenuObjectIndexByID(menuItemID)] = menuObject;
 
@@ -200,14 +201,18 @@ function LoopSearchInArray(whatToFind, keyIdentifier, arrayToSearch){
 }
 
 
-function setListDetailsOnTarget(targetWrapperElt, menuItemID, listItemID, listLevel){
+function setListDetailsOnTarget(menuItemID, listItemID, listLevel){
+
+	//listsTemplateElement: is what we want to use in this case to be displaying stuffs
+	let targetValue = document.querySelector(".listsTemplateElement").getAttribute("targetValue");
+
 	// we save all the selectors in an array 
-	let detailItemsSelectorsArray = ["listsTemplateElement", "list_text", "list_breadcrumb", "list_subitems_count", "list_level_count", "listSubitemsULWrapper"];
+	let detailItemsSelectorsArray = ["listsTemplateElement", "list_text", "list_breadcrumb", "list_subitems_count", "list_level_count", "listSubitemsUL"];
 	let detailsItemsSelectors = {};
 	for( var c = 0; c < detailItemsSelectorsArray.length; c++){
 		detailsItemsSelectors[detailItemsSelectorsArray[c]] = document.querySelector("." + detailItemsSelectorsArray[c]);
 	}
-	console.log(detailsItemsSelectors);
+
 	// levelArray
 	let selectedLevelArray = [];
 	let listItemObj = {};
@@ -217,29 +222,80 @@ function setListDetailsOnTarget(targetWrapperElt, menuItemID, listItemID, listLe
 		let allLevelsArraysList = menuObject.allLevelsArraysList;
 		selectedLevelArray = allLevelsArraysList[listLevel - 1];	
 		// 
+		// general items
+		
+		detailsItemsSelectors.list_level_count.innerHTML = listLevel;
 		if(listLevel != 1){
 			listItemObj = getListItemObjectByID(listItemID);
-			detailsItemsSelectors.list_text.innerHTML = "Desola";
+			detailsItemsSelectors.list_text.innerHTML = listItemObj.text;
+			detailsItemsSelectors.list_subitems_count.innerHTML = allLevelsArraysList[0].length;
+			detailsItemsSelectors.listSubitemsUL.innerHTML = generateListItems(allLevelsArraysList[0], menuItemID);
 		}else{
-			detailsItemsSelectors.list_text.innerHTML = "Rooters";
-			var targetWrapperElt = "targetWrapperElt";
-			var menuItemID = "menuItemID";
-			var listItemID = "listItemID";
-			var listLevel = "listLevel";
-			// detailsItemsSelectors.list_breadcrumb.innerHTML = `<li onClick='setListDetailsOnTarget(${targetWrapperElt}, ${menuItemID}, ${listItemID}, ${listLevel})'><span class="mr-25">Root</span></li>`;
-			detailsItemsSelectors.list_breadcrumb.innerHTML = "<li onClick='setListDetailsOnTarget( " +  "3" + ", " +  "3" + "," +  "3" + "," +  "3" + ",)'><span class='mr-25'>Root</span></li>";
-
+			detailsItemsSelectors.list_text.innerHTML = "Root Menu";
+			var clickParametersString = menuItemID + "," + listItemID + "," + listLevel;
+			detailsItemsSelectors.list_breadcrumb.innerHTML = "<li clickParameters="+ clickParametersString +" onClick='listBreadcrumbItemOnClick("+"this"+")'><span class='mr-25'>Root</span></li>";
+			detailsItemsSelectors.list_subitems_count.innerHTML = allLevelsArraysList[0].length;
+			detailsItemsSelectors.listSubitemsUL.innerHTML = generateListItems(allLevelsArraysList[0], menuItemID);
 		}
 
 	}
 
 
+	// Go to 
+	moveToTargetChild("exampleID", targetValue);
+
 
 }
 
-function doingAction(Item){
-	console.log("Doing Something");
-	console.log(Item);
+
+function listBreadcrumbItemOnClick(thisItem){
+	let parameters = convertStringWithDelimeterToArray(",", thisItem.getAttribute("clickParameters"));
+	console.log(parameters);
+}
+function listSubitemsULItemOnClick(thisItem){
+	let displayContainer = thisItem.getAttribute('modal-target-component');
+	let viewTrigger = document.querySelector(displayContainer).querySelector("#viewTrigger");
+	let editTrigger = document.querySelector(displayContainer).querySelector("#editTrigger");
+	let deleteTrigger = document.querySelector(displayContainer).querySelector("#deleteTrigger");
+
+	viewTrigger.setAttribute("onClick", "viewItemSubLists()");
+	toggleModal(displayContainer);
 }
 
-// setListDetailsOnTarget(targetWrapperElt, menuItemID, listItemID, listLevel);
+function viewItemSubLists(){
+	console.log("This is now working");
+}
+
+
+function generateOnClickText(onclickFunction, parametersArray){
+	let onclickFunctionString = "";
+	let parametersString = "";
+}
+
+function generateListItems(itemsListIDs, menuItemID){
+	let listsString = "" ;
+	for(var g = 0; g < itemsListIDs.length; g++){
+		var thisItemID = itemsListIDs[g];
+		let thisItemObj = getListItemObjectByID(menuItemID, thisItemID);
+		var thisItemString = `
+			<li>
+              <span class="li-child-item">
+                <span class="mr-25">${thisItemObj.text}</span>
+                <span><i onClick="listSubitemsULItemOnClick(${"this"})" modal-target-component="#listItemsOptionsModal" class="modal-toggle-item icon-feather-more-vertical"></i></span>
+              </span>
+            </li>
+
+		`;
+		listsString += thisItemString;
+	}
+
+	return listsString;
+}
+
+// setListDetailsOnTarget(menuItemID, listItemID, listLevel);
+
+
+/*
+
+Home | About | Services | Portfolio | Contact Us
+*/ 

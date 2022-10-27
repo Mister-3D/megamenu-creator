@@ -24,9 +24,11 @@
   <link rel="stylesheet" type="text/css" href="assets/css/project/components/modals.css">
 
 
-
+ 
 
     <style type="text/css">
+
+      .pos-hor-center-fixed{position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);}
          .layout-groups-wrapper{
            position: relative; overflow-x: hidden;
            height: 100vh; width: 100%;
@@ -79,32 +81,32 @@
 
 
 
-         #modal-default .modal-backdrop{
-                    background-color: rgba(0,0,0,.5);
-                  }
-                  #modal-default .modal-content-wrapper{
-                      width: 300px;
-                      margin: 1.75rem auto;
-                      position: relative;
-                      z-index: 5;
-                      background: transparent;
-                  }
+         .modal .modal-backdrop{
+            background-color: rgba(0,0,0,.5);
+          }
+          .modal .modal-content-wrapper{
+              width: 300px;
+              margin: 1.75rem auto;
+              position: relative;
+              z-index: 5;
+              background: transparent;
+          }
 
-                  #modal-default .modal-toggle{
-                    position: absolute;
-                    right: 16px;
-                    top: 16px;
-                    cursor: pointer;
-                    z-index: 500;
-                    transition: all .1s ease-in-out;
-                    box-shadow: 0 4px 20px 0 rgba(167,172,183, 0);
-                  }
-                  #modal-default .modal-toggle:hover{
-                    box-shadow: 0 4px 20px 0 rgba(167,172,183,.3);
-                  }
-                  @media(max-width: 576px){
-                    #modal-default .modal-content-wrapper{width: 100%;}
-                  }
+          .modal .modal-toggle{
+            position: absolute;
+            right: 16px;
+            top: 16px;
+            cursor: pointer;
+            z-index: 500;
+            transition: all .1s ease-in-out;
+            box-shadow: 0 4px 20px 0 rgba(167,172,183, 0);
+          }
+          .modal .modal-toggle:hover{
+            box-shadow: 0 4px 20px 0 rgba(167,172,183,.3);
+          }
+          @media(max-width: 576px){
+            .modal .modal-content-wrapper{width: 100%;}
+          }
         
     </style>
 
@@ -112,7 +114,7 @@
 <body>
 
   <!--  -->
-  <input type="hidden" id="thisMenuID" value=""/>
+  <input type="hidden" id="currentSelectedMenuID" value=""/>
   <!--  -->
 
 
@@ -134,13 +136,7 @@
       <!-- -->
       <div child-index="2" class="layout-group-item fadeIn">
 
-          <div class="h-100vh w-100 d-flex justify-content-center align-items-center">
-                <div>
-                    <label>Add items for the root Menu (separated by a '|')</label><br>
-                    <textarea style="width: 100%;" placeholder="e.g. option1 | option2 | option3..." rows="3" name="root_menu_items" id="root_menu_items"></textarea> 
-                    <button id="save_root_menu_items">Save</button>
-                </div>
-            </div>
+          
           
       </div>
       <!-- -->
@@ -149,8 +145,8 @@
       <!-- -->
       <div child-index="3" class="layout-group-item fadeIn" style="background-color: purple;">
 
-            <!-- this would be a template to display the ListItem Properties -->
-             <div id="" style="--height-header: 120px; --height-footer: 70px;" class="listsTemplateElement layout-wrapper">
+            <!-- this would be a template to display the ListItem Properties, we set its targetValue as desame as the child-index of its parent -->
+             <div id="" targetValue="3"  style="--height-header: 120px; --height-footer: 70px;" class="listsTemplateElement layout-wrapper">
 
                   <!-- header -->
                   <div class="header">
@@ -170,10 +166,10 @@
                               <div>
                                   <style type="text/css">
                                     .list_breadcrumb{list-style: none; margin: 0; padding: 0; display: inline-flex; align-items: center;}
-                                    .list_breadcrumb li{display: inline-flex;}
+                                    .list_breadcrumb li{display: inline-flex; cursor: pointer;}
                                   </style>
                                   <ul class="list_breadcrumb hor-scroll-wrapper txt-fs-12 txt-fs-i">
-                                      <li style=""><span class="mr-25">Root</span></li>
+                                      <li><span class="mr-25">Root</span></li>
                                       <li><span class="icon-feather-chevron-right mr-25"></span></li>
                                       <li><span class="mr-25">About</span></li>
                                       <li><span class="icon-feather-chevron-right mr-25"></span></li>
@@ -202,22 +198,27 @@
 
                   <!-- body -->
                   <div class="body">
-                        <div class="listSubitemsULWrapper w-sm-100 mx-auto py-2" style="width: 400px;">
-                            <ul class="list list-ver sortableLists txt-fs-14 txt-fs-i py-50">
+                        <div class="w-sm-100 mx-auto py-2" style="width: 400px;">
+                            <style type="text/css">
+                              .list li > .li-child-item {
+                                  border: 1px solid #f5f5f5; background-color: white;
+                              }
+                            </style>
+                            <ul class="list list-ver sortableLists listSubitemsUL txt-fs-14 txt-fs-i py-50">
 
 
-                                        <li class="has-subcontent">
-                                          <span class="li-child-item pos-rel" style="border: 1px solid #f5f5f5; background-color: white;">
+                                        <li>
+                                          <span>
                                             <span class="mr-25">List Item 1</span>
-                                            <span><i modal-target-component="#modal-default" class="modal-toggle-item icon-feather-more-vertical"></i></span>
+                                            <span><i modal-target-component="#listItemsOptionsModal" class="modal-toggle-item icon-feather-more-vertical"></i></span>
                                           </span>
 
                                         </li>
 
-                                         <li class="has-subcontent">
-                                          <span class="li-child-item pos-rel" style="border: 1px solid #f5f5f5; background-color: white;">
-                                            <span class="mr-25">List Item 2</span>
-                                            <span><i modal-target-component="#modal-default" class="modal-toggle-item icon-feather-more-vertical"></i></span>
+                                         <li>
+                                          <span>
+                                            <span class="mr-25">List Item 1</span>
+                                            <span><i modal-target-component="#listItemsOptionsModal" class="modal-toggle-item icon-feather-more-vertical"></i></span>
                                           </span>
 
                                         </li>
@@ -262,8 +263,8 @@
 
 
 
-    <!--  -->
-   <div id="modal-default" class="modal">
+   <!-- listItemsOptionsModal -->
+   <div id="listItemsOptionsModal" class="modal">
       <div class="modal-backdrop"></div>
       <div class="modal-content-wrapper">
 
@@ -274,45 +275,41 @@
           <div class="d-flex justify-content-center align-items-center h-100vh w-100">
               
               <div class="w-100" style="background-color: white; border-radius: 8px; overflow: hidden;">
+                 <style type="text/css">
+                   .list li > .li-child-item {
+                          border: 0px; background-color: white;
+                      }
+                 </style>
                   <ul class="list list-ver w-100 text-start txt-fs-14">
                                                 
-                                               <li>
-                                                  <a href="" class="li-child-item">
-                                                    <span class="li-child-item-icon txt-fs-20 mr-75">
-                                                      <span class="icon-feather-plus-square"></span>
-                                                    </span>
-                                                    <span class="li-child-item-text">Add data to table</span>
-                                                  </a>
-                                                </li>
+                     <li>
+                        <span class="li-child-item">
+                          <span class="li-child-item-icon txt-fs-20 mr-75">
+                            <span class="icon-feather-list"></span>
+                          </span>
+                          <span id="viewTrigger" class="li-child-item-text">View Items/Sublist</span>
+                        </span>
+                      </li>
 
-                                                <li>
-                                                  <a href="" class="li-child-item">
-                                                    <span class="li-child-item-icon txt-fs-20 mr-75">
-                                                      <span class="icon-feather-book-open"></span>
-                                                    </span>
-                                                    <span class="li-child-item-text">View Rows</span>
-                                                  </a>
-                                                </li>
+                      <li>
+                        <span class="li-child-item">
+                          <span class="li-child-item-icon txt-fs-20 mr-75">
+                            <span class="icon-feather-edit"></span>
+                          </span>
+                          <span id="editTrigger" class="li-child-item-text">Edit</span>
+                        </a>
+                      </li>
 
-                                                 <li>
-                                                  <a href="" class="li-child-item">
-                                                    <span class="li-child-item-icon txt-fs-20 mr-75">
-                                                      <span class="icon-feather-share-2"></span>
-                                                    </span>
-                                                    <span class="li-child-item-text">Export Data</span>
-                                                  </a>
-                                                </li>
+                      <li>
+                        <span class="li-child-item">
+                          <span class="li-child-item-icon txt-fs-20 mr-75">
+                            <span class="icon-feather-trash-2"></span>
+                          </span>
+                          <span id="deleteTrigger" class="li-child-item-text">Delete Item</span>
+                        </span>
+                      </li>
 
-                                                <li>
-                                                  <a href="" class="li-child-item">
-                                                    <span class="li-child-item-icon txt-fs-20 mr-75">
-                                                      <span class="icon-feather-trash-2"></span>
-                                                    </span>
-                                                    <span class="li-child-item-text">Delete Table</span>
-                                                  </a>
-                                                </li>
-
-                                            </ul>
+                  </ul>
               </div>
           </div>
         
@@ -323,6 +320,83 @@
    <!--  -->
 
 
+
+   <!-- editListItemModal -->
+   <div id="editListItemModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content-wrapper">
+
+          <div class="modal-toggle">
+            <i class="icon-feather-x"></i>
+          </div>
+          
+          <div class="d-flex justify-content-center align-items-center h-100vh w-100">
+              
+              <div class="w-100" style="background-color: white; border-radius: 8px; overflow: hidden;">
+                 <style type="text/css">
+                   .list li > .li-child-item {
+                          border: 0px; background-color: white;
+                      }
+                 </style>
+                  <ul class="list list-ver w-100 text-start txt-fs-14">
+                                                
+                     
+
+                      <li>
+                        <span class="li-child-item">
+                          <div>
+                            <h6 class="txt-lh-1 txt-fs-12" style="color: ccc;">Change Text</h6>
+                            <div>
+                              <input type="" name="listItemTextInput" id="listItemTextInput" value="">
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+
+                      <li>
+                        <span class="li-child-item">
+                          <div>
+                              <p>Icons</p>
+                          </div>
+                        </span>
+                      </li>
+
+                  </ul>
+              </div>
+          </div>
+        
+  
+        
+      </div>     
+   </div>
+   <!--  -->
+
+
+
+   <!-- addNewItemsModal -->
+   <div id="addNewItemsModal" class="modal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content-wrapper">
+
+          <div class="modal-toggle">
+            <i class="icon-feather-x"></i>
+          </div>
+          
+          <div class="h-100vh w-100 d-flex justify-content-center align-items-center">
+                <div class="p-2" style="background-color: white; border-radius: 10px;">
+                    <label> <span id="addNewItemsModalLabel">Add Sub Items (Single/Multiple) for this item</span>(for multiple items, separate using a '|')</label><br>
+                    <textarea targetListLevel="1" currentListItemID="rootID" style="width: 100%;" placeholder="e.g. option1 | option2 | option3..." rows="3" name="new_list_items" id="new_list_items"></textarea> 
+                    <button id="save_new_list_items">Save</button>
+                </div>
+          </div>
+        
+  
+        
+      </div>     
+   </div>
+   <!--  -->
+
+ 
 
 
 
