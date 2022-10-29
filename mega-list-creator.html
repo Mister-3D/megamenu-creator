@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html> 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +8,7 @@
 	    <!-- Vendor -->
    <link rel="stylesheet" type="text/css" href="assets/css/vendor/normalize.css">
    <link rel="stylesheet" type="text/css" href="assets/icons/icons.css">
-   
+    
   
    <!-- Project -->
    <link rel="stylesheet" type="text/css" href="assets/css/project/utilities/grid.css">
@@ -90,7 +90,7 @@
               position: relative;
               z-index: 5;
               background: transparent;
-          }
+          } 
 
           .modal .modal-toggle{
             position: absolute;
@@ -156,10 +156,10 @@
                               <div class="mb-50 d-flex justify-content-end align-items-center">
                                   <p class="list_text flex-grow-1 txt-fs-28 txt-fw-900 txt-lh-1">Root</p>
                                   <div>
-                                      <a style="text-decoration: none; border-radius: 3px; background-color: #0D6EFD; color: white; box-shadow: 0px 2px 5px rgb(0 0 0 / 10%);" class="py-25 px-1 py-sm-1 txt-fs-14 txt-fs-xs-12 d-flex align-items-center">
+                                      <span currentListItemID="rootID" targetListLevel="1" id="addSubItemTrigger" style="border-radius: 3px; background-color: #0D6EFD; color: white; cursor: pointer; box-shadow: 0px 2px 5px rgb(0 0 0 / 10%);" class="py-25 px-1 py-sm-1 txt-fs-14 txt-fs-xs-12 d-flex align-items-center">
                                             <span class="mr-50 mr-sm-0 icon-feather-plus"></span>
                                             <span class="d-xs-none">Add SubItem</span>
-                                      </a>
+                                      </span>
                                     
                                   </div>
                               </div>
@@ -411,8 +411,54 @@
   <script src="assets/js/vendor/jquery.mjs.nestedSortable.js"></script> 
   <script src="assets/js/vendor/touchpunch.js"></script>
 
+   <!--  -->
+  <script type="text/javascript" src="mega-list-creator.js"></script>
+
   <script type="text/javascript">
-      $( ".sortableLists" ).sortable();
+      $( ".sortableLists" ).sortable({
+          update: function(){
+
+              let targetListLevel  = document.querySelector("#addSubItemTrigger").getAttribute("targetListLevel");
+              let currentListItemID  = document.querySelector("#addSubItemTrigger").getAttribute("currentListItemID");
+              // get the current arrangement
+              let listItemsArrangment = this.querySelectorAll(".listItemOptionTrigger");
+              let newListItemsIDsArrangement = [];
+              for(var k = 0; k < listItemsArrangment.length; k++){
+                  let listItemID = listItemsArrangment[k].getAttribute('currentListItemID');
+                  newListItemsIDsArrangement.push(listItemID);
+              }
+              //
+              let currentSelectedMenuID =   document.querySelector("#currentSelectedMenuID").value;
+              let menuObject = getMenuObjectByID(currentSelectedMenuID);
+              let allLevelsArraysList = menuObject.allLevelsArraysList;
+              let itemsArray = menuObject.allListItems;
+
+              if(currentListItemID == "rootID"){
+                console.log("old-arrangment-rootID");
+                console.log(allLevelsArraysList[0]);
+                // this targets the items in level 1 which are the root items
+                allLevelsArraysList[0] = [...newListItemsIDsArrangement];
+                
+              }else{
+                // we get the currentListItemIDobject
+                let currentListItemIDObject = getListItemObjectByID(currentSelectedMenuID, currentListItemID);
+                let currentListItemObjIndex = getListItemObjectIndexByID(currentSelectedMenuID, currentListItemID);
+                console.log("old-arrangment-other");
+                console.log(currentListItemIDObject.children);
+                currentListItemIDObject.children = [...newListItemsIDsArrangement];
+                itemsArray[currentListItemObjIndex] = currentListItemIDObject;
+              }
+              //
+              menuObject.allListItems = itemsArray
+              menuObject.allLevelsArraysList = allLevelsArraysList;
+              allMenus[getMenuObjectIndexByID(currentSelectedMenuID)] = menuObject;
+
+              console.log("new-arrangment");
+              console.log(newListItemsIDsArrangement);
+
+        }
+      });
+
         
   </script> 
 
@@ -508,8 +554,7 @@
 
 
 
-    <!--  -->
-    <script type="text/javascript" src="mega-list-creator.js"></script>
+   
 
 
 

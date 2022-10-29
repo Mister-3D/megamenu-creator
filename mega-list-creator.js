@@ -1,6 +1,6 @@
 
 
-//
+// 
 
 // html items names:
 /*
@@ -37,13 +37,27 @@ document.querySelector("#save_new_list_items").addEventListener('click', functio
  		textarea_new_list_items.focus();
 
  	}else{
- 		addNewListItemsToMenuObject(document.querySelector("#currentSelectedMenuID").value, convertStringWithDelimeterToArray("|", textarea_new_list_items.value), targetListLevel);
+ 		addNewListItemsToMenuObject(document.querySelector("#currentSelectedMenuID").value, convertStringWithDelimeterToArray("|", textarea_new_list_items.value), currentListItemID, targetListLevel);
+ 		console.log("Added New List Item");
+ 		console.log(allMenus);
  		setListDetailsOnTarget(currentSelectedMenuID, currentListItemID, targetListLevel);
  	  //
  	  toggleModal("#addNewItemsModal");
  	}
 });
 
+
+document.querySelector("#addSubItemTrigger").addEventListener('click', function(){
+ 	let targetListLevel  = this.getAttribute("targetListLevel");
+ 	let currentListItemID  = this.getAttribute("currentListItemID");
+ 	//
+ 	let textarea_new_list_items = document.querySelector("#new_list_items");
+ 	textarea_new_list_items.value = "";
+ 	textarea_new_list_items.setAttribute("targetListLevel", targetListLevel);
+ 	textarea_new_list_items.setAttribute("currentListItemID", currentListItemID);
+ 	//
+ 	toggleModal("#addNewItemsModal");
+});
 
 
 
@@ -63,7 +77,7 @@ function createNewMenuObject(menuName){
 	console.log(allMenus);
 }
 
-function addNewListItemsToMenuObject(menuItemID, newListItems, targetListLevel){
+function addNewListItemsToMenuObject(menuItemID, newListItems, listItemID, targetListLevel){
 	let menuObject = getMenuObjectByID(menuItemID);
 	if(menuObject != null){
 		for( var p = 0; p < newListItems.length; p++){
@@ -71,8 +85,20 @@ function addNewListItemsToMenuObject(menuItemID, newListItems, targetListLevel){
 			let newListItemObjID = newListItemObj.id;
 			//
 			let itemsArray = menuObject.allListItems;
+
+			if(listItemID != "rootID"){
+				// add items to their parent
+				let parentListItemObj = getListItemObjectByID(menuItemID, listItemID);
+				let parentListItemObjIndex = getListItemObjectIndexByID(menuItemID, listItemID);
+				parentListItemObj.children.push(newListItemObjID);
+				// set parent in items
+				newListItemObj.parent = listItemID;
+				itemsArray[parentListItemObjIndex] = parentListItemObj;
+			}
+			//
 			itemsArray.push(newListItemObj);
-			menuObject.allListItems = itemsArray;
+			//
+			menuObject.allListItems = itemsArray
 			//
 			saveNewLevelItems(Number(targetListLevel), newListItemObjID, menuItemID);
 			//
@@ -82,6 +108,8 @@ function addNewListItemsToMenuObject(menuItemID, newListItems, targetListLevel){
 
 	}
 }
+
+
 
 function convertStringWithDelimeterToArray(delimeter, fullString){
 	let stringConversion = fullString.replace(/\s/g,'');
@@ -156,6 +184,22 @@ function getMenuObjectIndexByID(givenID){
 	}
 	return itemToGetIndex;
 }
+function getListItemObjectIndexByID(menuItemID, listItemID){
+	let menuObject = getMenuObjectByID(menuItemID);
+	let listObjectsArray = menuObject.allListItems;
+
+	let itemToGetIndex = 0;
+	for(var u = 0; u < listObjectsArray.length; u++){
+		let thisItem = listObjectsArray[u];
+		if(thisItem.id == listItemID){ 
+			itemToGetIndex = u;
+		}else{
+			itemToGetIndex = -1;
+		}
+	}
+	return itemToGetIndex;
+}
+
 
 function getListItemObjectByID(menuItemID, listItemID){
 	let menuObject = getMenuObjectByID(menuItemID);
@@ -226,16 +270,23 @@ function setListDetailsOnTarget(menuItemID, listItemID, listLevel){
 		
 		detailsItemsSelectors.list_level_count.innerHTML = listLevel;
 		if(listLevel != 1){
-			listItemObj = getListItemObjectByID(listItemID);
+			listItemObj = getListItemObjectByID(menuItemID, listItemID);
 			detailsItemsSelectors.list_text.innerHTML = listItemObj.text;
-			detailsItemsSelectors.list_subitems_count.innerHTML = allLevelsArraysList[0].length;
-			detailsItemsSelectors.listSubitemsUL.innerHTML = generateListItems(allLevelsArraysList[0], menuItemID);
+			detailsItemsSelectors.list_breadcrumb.innerHTML = generateBreadcrumbList(listItemID, Number(listItemObj.level) + 1, menuItemID);
+			detailsItemsSelectors.list_subitems_count.innerHTML = listItemObj.children.length;
+			detailsItemsSelectors.listSubitemsUL.innerHTML = generateListItems(listItemObj.children, menuItemID);
+			// 
+			document.querySelector("#addSubItemTrigger").setAttribute("targetListLevel", Number(listItemObj.level) + 1);
+ 			document.querySelector("#addSubItemTrigger").setAttribute("currentListItemID", listItemObj.id);
+			
 		}else{
 			detailsItemsSelectors.list_text.innerHTML = "Root Menu";
-			var clickParametersString = menuItemID + "," + listItemID + "," + listLevel;
-			detailsItemsSelectors.list_breadcrumb.innerHTML = "<li clickParameters="+ clickParametersString +" onClick='listBreadcrumbItemOnClick("+"this"+")'><span class='mr-25'>Root</span></li>";
+			detailsItemsSelectors.list_breadcrumb.innerHTML = generateBreadcrumbList(listItemID, listLevel, menuItemID);
 			detailsItemsSelectors.list_subitems_count.innerHTML = allLevelsArraysList[0].length;
 			detailsItemsSelectors.listSubitemsUL.innerHTML = generateListItems(allLevelsArraysList[0], menuItemID);
+			// 
+			document.querySelector("#addSubItemTrigger").setAttribute("targetListLevel", 1);
+ 			document.querySelector("#addSubItemTrigger").setAttribute("currentListItemID", "rootID");
 		}
 
 	}
@@ -247,24 +298,90 @@ function setListDetailsOnTarget(menuItemID, listItemID, listLevel){
 
 }
 
+function generateBreadcrumbList(listItemID, listItemLevel, menuItemID){
 
+	// "";
+	let breadcrumbItems = [];
+	let breadcrumbItemsString = "";
+	let clickParametersString = "";
+	let itemText = "";
+
+	if((listItemID == "rootID") && (listItemLevel == 1)){
+			breadcrumbItems.push("rootID");
+	}
+	else{
+			let listObject = getListItemObjectByID(menuItemID, listItemID);
+			let listParentID = listObject.parent;
+			//
+			breadcrumbItems.push(listItemID);
+			//
+			while(listParentID != ""){
+				 let listObjectParent = getListItemObjectByID(menuItemID, listParentID);
+				 let listParentIDLoop = listObjectParent.parent;
+				 breadcrumbItems.push(listObjectParent.id);
+				 listParentID = listParentIDLoop;
+			}
+			//
+			breadcrumbItems.push("rootID");
+	}
+
+	// we reverse the order
+	breadcrumbItems.reverse();
+
+
+	for(var b = 0; b < breadcrumbItems.length; b++ ){
+		//
+		let thisBreadcrumbItemID = breadcrumbItems[b];
+		//
+		if(thisBreadcrumbItemID == "rootID"){
+			clickParametersString = menuItemID + "," + "rootID" + "," + "1";
+			itemText = "Root";
+		}else{
+			let thisBreadcrumbItemObject = getListItemObjectByID(menuItemID, thisBreadcrumbItemID);
+			clickParametersString = menuItemID + "," + thisBreadcrumbItemID + "," + (Number(thisBreadcrumbItemObject.level) + 1);
+			itemText = thisBreadcrumbItemObject.text;
+		}
+		let separator = `<li><span class="icon-feather-chevron-right mr-25"></span></li>`;
+		let thisLi = `<li clickParameters="${clickParametersString}" onClick='listBreadcrumbItemOnClick(${"this"})'><span class='mr-25'>${itemText}</span></li>`;
+
+		if(b == (breadcrumbItems.length - 1)){
+			separator = "";
+		}
+		
+		thisLi += separator;
+		breadcrumbItemsString += thisLi;
+	}
+
+	return breadcrumbItemsString;
+	
+}
 function listBreadcrumbItemOnClick(thisItem){
 	let parameters = convertStringWithDelimeterToArray(",", thisItem.getAttribute("clickParameters"));
-	console.log(parameters);
+	setListDetailsOnTarget(parameters[0], parameters[1], parameters[2]);
 }
 function listSubitemsULItemOnClick(thisItem){
 	let displayContainer = thisItem.getAttribute('modal-target-component');
 	let viewTrigger = document.querySelector(displayContainer).querySelector("#viewTrigger");
 	let editTrigger = document.querySelector(displayContainer).querySelector("#editTrigger");
 	let deleteTrigger = document.querySelector(displayContainer).querySelector("#deleteTrigger");
-
-	viewTrigger.setAttribute("onClick", "viewItemSubLists()");
+	//
+	viewTrigger.setAttribute("onClick", "viewItemSubLists(this)");
+	viewTrigger.setAttribute("targetListLevel", thisItem.getAttribute("targetListLevel"));
+ 	viewTrigger.setAttribute("currentListItemID", thisItem.getAttribute("currentListItemID"));
 	toggleModal(displayContainer);
 }
 
-function viewItemSubLists(){
-	console.log("This is now working");
+function viewItemSubLists(thisListItem){
+	setListDetailsOnTarget(
+		document.querySelector("#currentSelectedMenuID").value, 
+		thisListItem.getAttribute("currentListItemID"), 
+		thisListItem.getAttribute("targetListLevel")
+		);
+	toggleModal("#listItemsOptionsModal");
+
 }
+
+
 
 
 function generateOnClickText(onclickFunction, parametersArray){
@@ -274,20 +391,26 @@ function generateOnClickText(onclickFunction, parametersArray){
 
 function generateListItems(itemsListIDs, menuItemID){
 	let listsString = "" ;
-	for(var g = 0; g < itemsListIDs.length; g++){
-		var thisItemID = itemsListIDs[g];
-		let thisItemObj = getListItemObjectByID(menuItemID, thisItemID);
-		var thisItemString = `
-			<li>
-              <span class="li-child-item">
-                <span class="mr-25">${thisItemObj.text}</span>
-                <span><i onClick="listSubitemsULItemOnClick(${"this"})" modal-target-component="#listItemsOptionsModal" class="modal-toggle-item icon-feather-more-vertical"></i></span>
-              </span>
-            </li>
+	// 
+	if(itemsListIDs.length != 0){
+			for(var g = 0; g < itemsListIDs.length; g++){
+				var thisItemID = itemsListIDs[g];
+				let thisItemObj = getListItemObjectByID(menuItemID, thisItemID);
+				var thisItemString = `
+					<li>
+		              <span class="li-child-item">
+		                <span class="mr-25">${thisItemObj.text}</span>
+		                <span><i targetListLevel="${Number(thisItemObj.level) + 1}" currentListItemID="${thisItemObj.id}" onClick="listSubitemsULItemOnClick(${"this"})" modal-target-component="#listItemsOptionsModal" class="modal-toggle-item listItemOptionTrigger icon-feather-more-vertical"></i></span>
+		              </span>
+		            </li>
 
-		`;
-		listsString += thisItemString;
+				`;
+				listsString += thisItemString;
+			}
+	}else{
+		listsString = "<div style='background-color: white;' class='p-2 pos-hor-center-fixed'><p>No SubItems Added Yet!</p></div>";
 	}
+	
 
 	return listsString;
 }
