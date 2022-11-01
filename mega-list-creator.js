@@ -11,7 +11,8 @@ button: #save_new_list_items
 */
 
 let allMenus = [];
-// step 1
+
+// step 1: add the menu name
 document.querySelector("#save_new_menu_name").addEventListener('click', function(){
  	var input_new_menu_name = document.querySelector("#new_menu_name");
  	if((input_new_menu_name.value) == ""){
@@ -25,7 +26,7 @@ document.querySelector("#save_new_menu_name").addEventListener('click', function
  	}
 });
 
-// step 2
+// step 2: get the list of items you add (for the root level....at first)
 document.querySelector("#save_new_list_items").addEventListener('click', function(){
  	var textarea_new_list_items = document.querySelector("#new_list_items");
  	let targetListLevel  = textarea_new_list_items.getAttribute("targetListLevel");
@@ -46,7 +47,7 @@ document.querySelector("#save_new_list_items").addEventListener('click', functio
  	}
 });
 
-
+// 
 document.querySelector("#addSubItemTrigger").addEventListener('click', function(){
  	let targetListLevel  = this.getAttribute("targetListLevel");
  	let currentListItemID  = this.getAttribute("currentListItemID");
@@ -59,6 +60,16 @@ document.querySelector("#addSubItemTrigger").addEventListener('click', function(
  	toggleModal("#addNewItemsModal");
 });
 
+//
+document.querySelector(".generateMenuHTMLTextTrigger").addEventListener('click', function(){
+ 	let menuObject = getMenuObjectByID(document.querySelector("#currentSelectedMenuID").value);
+	if(menuObject != null){
+ 		displayThisMenuText(menuObject);
+ 	}else{
+ 		console.log("No menu found");
+ 	}
+});
+
 
 
 function createNewMenuObject(menuName){
@@ -67,7 +78,8 @@ function createNewMenuObject(menuName){
 		"name": menuName,
 		"id": newMenuItemID,
 		"allListItems":[],
-		"allLevelsArraysList":[]
+		"allLevelsArraysList":[],
+		"allSubcontentTexts":[]
 	};
 	//
 	allMenus.push(newMenuItem);
@@ -399,7 +411,10 @@ function generateListItems(itemsListIDs, menuItemID){
 				var thisItemString = `
 					<li>
 		              <span class="li-child-item">
-		                <span class="mr-25">${thisItemObj.text}</span>
+		              	<div class="flex-fill">	
+		                   <div><span>${thisItemObj.text}</span></div>
+		                   <div class="txt-fs-10" style="color: #ccc;"><span>${thisItemObj.children.length}</span> <span>items</span></div>
+		                </div>
 		                <span><i targetListLevel="${Number(thisItemObj.level) + 1}" currentListItemID="${thisItemObj.id}" onClick="listSubitemsULItemOnClick(${"this"})" modal-target-component="#listItemsOptionsModal" class="modal-toggle-item listItemOptionTrigger icon-feather-more-vertical"></i></span>
 		              </span>
 		            </li>
@@ -422,3 +437,144 @@ function generateListItems(itemsListIDs, menuItemID){
 
 Home | About | Services | Portfolio | Contact Us
 */ 
+
+function findCommonElement(array1, array2) {
+     
+     let comparisonResult = [];
+
+    // Loop for array1
+    for(let i = 0; i < array1.length; i++) {
+         
+        // Loop for array2
+        for(let j = 0; j < array2.length; j++) {
+             
+            // Compare the element of each and
+            // every element from both of the
+            // arrays
+            if(array1[i] === array2[j]) {
+             
+                // Return if common element found
+                let comparisonResultObject = {};
+                comparisonResultObject.match = array1[i];
+                comparisonResultObject.indexInFirst = i;
+                comparisonResultObject.indexInSecond = j;
+                comparisonResult.push(comparisonResultObject);
+                // return true;
+                // return true;
+            }
+        }
+    }
+     
+    // Return if no common element exist
+    return comparisonResult;
+    // return false;
+}
+
+
+function getSubcontentTextForThisListItemID(listItemID, allSubcontentTexts){
+    let itemText = "";
+    for(var p = 0; p < allSubcontentTexts.length; p++){
+        // we go through each level, and each item in each level to get match and its subcontentText
+        let thisLevelArray = allSubcontentTexts[p];
+        if(thisLevelArray.length == 0){
+
+        }else{
+            // get the items in the levelArray.
+            for(var y = 0; y < thisLevelArray.length; y++){
+                let gottenItemArrayObj = thisLevelArray[y];
+                if(gottenItemArrayObj.id == listItemID){
+                    itemText = gottenItemArrayObj.itemText;
+                }
+            }
+        }
+    }
+
+    return itemText;
+}
+
+
+
+function displayThisMenuText(thisMenuObject){
+
+
+        let thisMenuObjectID = thisMenuObject.id;
+        let allLevelsArraysList = thisMenuObject.allLevelsArraysList;
+        let allSubcontentTexts = thisMenuObject.allSubcontentTexts;
+
+
+       // we loop through the "allLevelsArraysList" starting from the last level up to the top
+       for (var n = (allLevelsArraysList.length - 1); n >= 0; n--){
+
+            
+
+              // create a new array for "allSubcontentTexts" to store the texts of this level
+              let arrayForSubcontentLevel = [];
+
+              let thisLevelArray = allLevelsArraysList[n];
+              for(var b = 0; b < thisLevelArray.length; b++){
+                 let thisLevelArrayItemID = thisLevelArray[b];
+                 let thisListItemObject = getListItemObjectByID(thisMenuObjectID, thisLevelArrayItemID);
+                 let thisListItemText = "<li>";
+                 thisListItemText += "<span>" + thisListItemObject.text + "</span>"; 
+                 if(thisListItemObject.children.length > 0){
+                   
+                    if(n == (allLevelsArraysList.length - 1)){
+                       
+                    }else{
+                        thisListItemText += "<div>";
+                        thisListItemText += "<ul>";
+                        // check the lower level before this current level and check if thisItem has a child there
+                        // we loop through its children array to check for a match 
+                        let theChildren = thisListItemObject.children;
+                        // we get the array of the lower level
+                        // since this level index is n, its lower level will be n + 1;
+                        let lowerLevelArray = allLevelsArraysList[Number(n+1)];    
+                        // we compare the items in both array to see if there would be a match
+                        let comparisonResults = findCommonElement(theChildren, lowerLevelArray);
+                        
+                        if(comparisonResults.length > 0){
+                            // then there is a match/matches, for each match, we get their subcontentText
+                            for(var l = 0; l < comparisonResults.length; l++){
+                                let itemSubcontentText = getSubcontentTextForThisListItemID(comparisonResults[l].match, allSubcontentTexts);
+
+                                thisListItemText += itemSubcontentText;
+                            }
+
+                        }
+                        thisListItemText += "</ul>";
+                        thisListItemText += "</div>";
+                    }
+                 }else{
+                  
+                 }
+                 thisListItemText += "</li>";
+
+                 // console.log("allSubcontentTexts");
+                // console.log(allSubcontentTexts);
+                
+                 // create a new object for this id item to store in the "arrayForSubcontentLevel"
+                 let arrayForSubcontentLevelItem = {};
+                 arrayForSubcontentLevelItem.id = thisListItemObject.id;
+                 arrayForSubcontentLevelItem.itemText = thisListItemText;
+                 arrayForSubcontentLevel.push(arrayForSubcontentLevelItem);
+              }
+
+              // store it in the "allSubcontentTexts" array
+              allSubcontentTexts.push(arrayForSubcontentLevel);
+       }
+
+       // after all the subcontents are prepared, we get the last array there
+       let lastSubcontenTextsArray = allSubcontentTexts[allSubcontentTexts.length - 1];
+       console.log(lastSubcontenTextsArray);
+       let thisMenuFullText = "<ul>";
+       for(var u = 0; u < lastSubcontenTextsArray.length; u++){
+            thisMenuFullText += lastSubcontenTextsArray[u].itemText;
+       }
+       thisMenuFullText += "</ul>";
+       console.log(thisMenuFullText);
+
+       document.querySelector(".content").innerHTML = thisMenuFullText;
+  	
+  	   moveToTargetChild("exampleID", 4);
+
+}

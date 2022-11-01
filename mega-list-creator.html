@@ -250,15 +250,20 @@
       <!-- -->
 
       <!-- -->
-      <div child-index="4" class="layout-group-item fadeIn" style="background-color: yellow;"></div>
+      <div child-index="4" class="layout-group-item fadeIn" style="background-color: yellow;">
+          <div class="content">
+            
+          </div>
+      </div>
       <!-- -->
 
     </div>
 
 
     <div class="d-flex" style="position: fixed; z-index: 500; left: 50%; top: 10%; transform: translate(-50%, -50%);">
-        <button target-component="exampleID" class="movePrevious" style="padding: 5px;">Move Previous</button>
-        <button target-component="exampleID" class="moveNext" style="padding: 5px;">Move Next</button>
+        <button target-component="exampleID" class="movePrevious" style="padding: 5px;">Prev</button>
+        <!-- <button target-component="exampleID" class="moveNext" style="padding: 5px;">Move Next</button> -->
+        <button class="generateMenuHTMLTextTrigger" style="padding: 5px;">Generate</button>
     </div>
 
 
@@ -534,18 +539,18 @@
 
         }
 
-        var movePrevious = document.querySelector(".movePrevious");
-        var moveNext = document.querySelector(".moveNext");
-        movePrevious.addEventListener('click', function(event){
-            var layoutGroupWrapperID = this.getAttribute('target-component');
-            if((layoutGroupWrapperID == "") || (layoutGroupWrapperID == null)){}
-            else{moveToTargetChild(layoutGroupWrapperID, "prev");}
-        });
-        moveNext.addEventListener('click', function(event){
-            var layoutGroupWrapperID = this.getAttribute('target-component');
-            if((layoutGroupWrapperID == "") || (layoutGroupWrapperID == null)){}
-            else{moveToTargetChild(layoutGroupWrapperID, "next");}
-        });
+        // var movePrevious = document.querySelector(".movePrevious");
+        // var moveNext = document.querySelector(".moveNext");
+        // movePrevious.addEventListener('click', function(event){
+        //     var layoutGroupWrapperID = this.getAttribute('target-component');
+        //     if((layoutGroupWrapperID == "") || (layoutGroupWrapperID == null)){}
+        //     else{moveToTargetChild(layoutGroupWrapperID, "prev");}
+        // });
+        // moveNext.addEventListener('click', function(event){
+        //     var layoutGroupWrapperID = this.getAttribute('target-component');
+        //     if((layoutGroupWrapperID == "") || (layoutGroupWrapperID == null)){}
+        //     else{moveToTargetChild(layoutGroupWrapperID, "next");}
+        // });
 
 
     </script>
@@ -563,4 +568,4 @@
 
 
 
-</html>
+</html> 

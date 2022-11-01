@@ -1,0 +1,125 @@
+
+###### FILE REVISIONS
+mega-list-creator-1....the first created one trying things out
+mega-list-creator-2....setting up how the ui will look
+mega-list-creator-3....set up ui, with jqueryui sortable lists, creation of menu and menu items as they should be setup 
+
+In the current Revision: mega-list-creator.html
+We have gotten all the things in place as where things goes and how it combines together
+Now we want to use all the details we have to generate the string for the whole menu
+// before, in earlier revisions, we have not added the "allSubcontentTexts" array 
+but in this revision, we will add it to the "menu-item" properties (in the "mega-list-creator.js" file)
+
+
+
+
+##### DYNAMISM, LOGIC, BREAKDOWN, FLOW, STEPS, ITEMS
+We have an array that store all created menu Objects: "allMenus"
+then it is filled up of menuObjects
+this is the format/setup
+
+a new menu object has this
+let newMenuItem = {
+		"name": menuName,
+		"id": newMenuItemID,
+		"allListItems":[],
+		"allLevelsArraysList":[],
+		"allSubcontentTexts":[]
+	};
+name: the custom name for this menu
+id: generated randomly 
+allListItems: is an array that contains all the list items this menu has
+allLevelsArraysList: we assume every megamenu has levels, level 1, level 2....level n
+					 so we categorize each item by the level it would be
+					 level 1 is the root level, while level n is the last level downward
+					 So "allLevelsArraysList" is an array containing arrays of each level
+					 each array contains the ids of the list items based on their level
+allSubcontentTexts: this is also an array of arrays containing objects of listitems final <li> texts indicated by their id
+					the logic is that we do a sum total of all list items, starting from the lowest level up to the root level above
+					and we store them here, it is what we use to generate the final text
+
+
+***Major logic***
+for each list item in the menu, they have the format
+let newListItemObject = {};
+	newListItemObject.id = "item" + String(Math.floor(Math.random() * 1000000000) + 1);
+	newListItemObject.text = itemText;
+	newListItemObject.subListText = "";
+	newListItemObject.levelPosition = position;
+	newListItemObject.type = "";
+	newListItemObject.level = level;
+	newListItemObject.parent = "";
+	newListItemObject.children = [];
+So they have some properties unique to them
+ILLUSTRATION
+Take for example we have a menu with 3 levels
+lets assume the items below to be the levels
+level 1: [id1212, id8181, id8934]
+level 2: [id4217, id3433, id5637, id2039, id3444]
+level 3: [id3452, id9998]
+
+The main goal is to generate our subcontentTexts...ITS LIKE A CONTINOUS SUMMATION OF TEXTS
+we generate the text for each list item and store it in the allSubcontentTexts based on its level
+We acheieve this using a loop, so starting from level 3 to the root level up,
+
+- for the first run of the loop (level 3)
+here we have 2 list items (id3452, id9998)
+so we generate for id3452 
+<li>the text<li>
+in case of upper levels, we check if this list item has subitems
+if it does, the format will be
+<li>the text<div><ul>..........</ul></div></li>
+in the case of level 3, they dont have children because they are on the last level
+so eventually in the "allSubcontentTexts" after the first run of the loop,
+we have one array, with two objects, one for id3452 and one for id9998
+with their respective texts
+
+then loop runs the second time (level 2);
+we generate the text for each item (id4217, id3433, id5637, id2039, id3444)
+when generating their text, we check each item, to see if anyone of them has children
+if they have children, that means, the child/children must be in (level 3) 
+so comparing the id of each child, we scan through the ids in the (level 3) to find a match
+if there is a match, we now use that match,
+go to the subcontentTexts array and find the subcontentText of this match
+and we add it to the text of this current listitem...it would look like something like this 
+
+<li>the text<div><ul>....subcontentText of child......</ul></div></li>
+
+so we store this text as the subcontentText of this list item....
+we do this for all the items in this level 2
+so eventually in the "allSubcontentTexts" after the second run of the loop,
+we have two arrays, one for the last level and one for the second level..filled with objects(ids, listitemTexts) 
+
+then the loop runs the third time for (level 1 - the root level)
+just as it did for level 2, it does the same here
+
+then eventually we have a total summation of all
+
+FINALLY, the use the last item in the allSubcontentTexts array i.e. allSubcontentTexts[allSubcontentTexts.length - 1]
+to generate the full text for the menu
+
+
+// START
+once we open the page, it should show us the list of all existing menus
+we would also have the "Add New Menu" button
+
+When the "Add New Menu" button is clicked...it opens a screen to add the "name" of the new menu
+We create a new object with the newMenuDetails and We save this new object into the "allMenus" array 
+
+Once this is done,...we proceed to ask for the list of the ROOT MENU items in the menu(separated by a delimeter)...we get this using a textarea
+
+after we get this, we save each List Item as a separate object entity with details on its own
+then we save each and every of the object created in the: "allListItems" array
+....
+then we also save these items individual id in an array, they represent the first level (1)
+So we save this level1Array in the "allLevelsArraysList" array
+
+
+// Displaying the ListSubItems
+// the classes used (since we are just changing their values and they are unique stuffs)
+listsTemplateElement: 'The wrapper for the ListDetails'
+list_text: 'Shows the text/label' of the list
+list_breadcrumb: 'a <ul> displaying the breadcrumb'
+list_subitems_count
+list_level_count
+listSubitemsULWrapper
